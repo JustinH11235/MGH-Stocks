@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+        <script type="text/javascript" src="/stocks/static/quote.js"></script>
+{% endblock %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block heading %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    <form id="form">
+        <div class="form-group">
+            <input class="form-control" id="symbol" name="symbol" placeholder="Symbol" type="text" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" autofocus>
+        </div>
+        <button class="btn btn-primary" id="submit" type="submit" disabled>Get Quote</button>
+    </form>
+    <br>
+    <table id="quotes" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th id="price" scope="col">Price</th>
+                <th scope="col">Symbol</th>
+            </tr>
+        </thead>
+        <tbody id="tBody">
+        </tbody>
+    </table>
+    
+    <script>
+        let symbol = document.querySelector('#symbol')
+        let submit = document.querySelector('#submit')
+        symbol.oninput = function() {
+            if (symbol.value === '') {
+                submit.disabled = true;
+            } else {
+                submit.disabled = false;
+            }
+        }
+    </script>
+{% endblock %}

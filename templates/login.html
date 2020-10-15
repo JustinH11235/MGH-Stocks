@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block heading %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/stocks/login" method="post">
+        <div class="form-group">
+            <input class="form-control" id="username" name="username" placeholder="Username" type="text" oninput="checkInputs()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" autofocus>
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="password" name="password" placeholder="Password" type="password" oninput="checkInputs()">
+        </div>
+        <button class="btn btn-primary" id="submit" type="submit" disabled>Log In</button>
+    </form>
+    <br>
+    <p>New to MGH Stocks? <a href="/stocks/register">Create an account.<a></p>
+    <script>
+        let username = document.querySelector('#username')
+        let password = document.querySelector('#password')
+        let submit = document.querySelector('#submit')
+        function checkInputs() {
+            if (username.value === '' || password.value === '') {
+                submit.disabled = true;
+            } else {
+                submit.disabled = false;
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block heading %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <h3 class="text-muted">Cash:</h3>
+    <table class="table cash-table">
+        <thead>
+            <tr>
+                <th scope="col"><h2 class="text-muted">{{ _|getcash|usd }}</h2></th>
+            </tr>
+        </thead>
+    </table>
+
+
+    <br>
+    <form action="/stocks/buy" method="post">
+        <div class="form-group">
+            <input class="form-control" id="symbol" name="symbol" placeholder="Symbol" type="text" oninput="checkInputs()" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" autofocus>
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="shares" name="shares" placeholder="Shares" type="number" min=1 oninput="checkInputs()" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" id="submit" type="submit" disabled>Buy</button>
+    </form>
+    <script>
+        let symbol = document.querySelector('#symbol')
+        let shares = document.querySelector('#shares')
+        let submit = document.querySelector('#submit')
+        function checkInputs() {
+            if (symbol.value === '' || shares.value === '') {
+                submit.disabled = true;
+            } else {
+                submit.disabled = false;
+            }
+        }
+    </script>
+{% endblock %}

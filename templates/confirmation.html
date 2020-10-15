@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Confirmation
+{% endblock %}
+
+{% block heading %}
+    Confirmation
+{% endblock %}
+
+{% block main %}
+    <h3>{{ action }}</h3>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Estimated Share Price</th>
+                <th scope="col">Estimated Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ shares }}</td>
+                <td>{{ price|usd }}</td>
+                <td>{{ ('<span class="text-danger">-')|safe if action == 'Buying:' else ('<span class="text-success">+')|safe }}{{ (price * shares)|usd }}</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form action="/stocks/{{ 'buy' if action == 'Buying:' else 'sell' }}" method="post">
+        <button class="btn btn-primary" id="submit" type="submit">Confirm</button>
+        
+        <input type="hidden" name="symbol1" value="{{ symbol }}" />
+        <input type="hidden" name="shares" value="{{ shares }}" />
+    </form>
+{% endblock %}
