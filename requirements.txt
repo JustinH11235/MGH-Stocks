@@ -1,0 +1,5 @@
+SQLAlchemy
+Flask
+Flask-Session
+requests
+pytz
