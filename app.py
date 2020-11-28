@@ -88,7 +88,7 @@ if not os.environ.get("API_KEY"):
 def index():
     """Show portfolio of stocks"""
     if request.args.get("xhr") == "true":
-        temp_stocks = db.execute("SELECT symbol, SUM(quantity) AS  FROM transactions WHERE person_id = :person_id GROUP BY symbol", {"person_id": session["user_id"]}).fetchall()
+        temp_stocks = db.execute("SELECT symbol, SUM(quantity) FROM transactions WHERE person_id = :person_id GROUP BY symbol", {"person_id": session["user_id"]}).fetchall()
         stocks = []
         print(temp_stocks)
         for stock in temp_stocks:
