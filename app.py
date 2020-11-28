@@ -57,10 +57,31 @@ Session(app)
 engine = create_engine(os.environ.get('DATABASE_URL') or 'sqlite:///stocks.db')  # database engine object from SQLAlchemy that manages connections to the database
 db = scoped_session(sessionmaker(bind=engine))  # ensures different users' interactions are separate
 
+# SQLAlchemy code ran to create tables:
+# from app import engine
+# from sqlalchemy import MetaData, Table, Column, Integer, String, DateTime, Numeric
+# meta = MetaData()
+# users = Table(
+#     'users', meta, 
+#     Column('id', Integer, primary_key = True), 
+#     Column('username', String), 
+#     Column('hash', String),
+#     Column('cash', Numeric)
+# )
+# transactions = Table(
+#     'transactions', meta, 
+#     Column('transaction_id', Integer, primary_key = True), 
+#     Column('person_id', Integer), 
+#     Column('symbol', String),
+#     Column('quantity', Integer),
+#     Column('price', Numeric),
+#     Column('time', DateTime)
+# )
+# meta.create_all(engine)
+
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
     raise RuntimeError("API_KEY not set")
-
 
 @app.route("/", methods=["GET"])
 @login_required
@@ -69,7 +90,9 @@ def index():
     if request.args.get("xhr") == "true":
         temp_stocks = db.execute("SELECT symbol, SUM(quantity) FROM transactions WHERE person_id = :person_id GROUP BY symbol", {"person_id": session["user_id"]}).fetchall()
         stocks = []
+        print(temp_stocks)
         for stock in temp_stocks:
+            print('stock', stock)
             if stock["SUM(quantity)"] > 0:
                 stocks.append({"symbol": stock["symbol"], "shares": stock["SUM(quantity)"]})
         cash = db.execute("SELECT cash FROM users WHERE id = :id", {"id": session["user_id"]}).fetchall()[0]["cash"]
