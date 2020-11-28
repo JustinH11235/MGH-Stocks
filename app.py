@@ -90,12 +90,9 @@ def index():
     if request.args.get("xhr") == "true":
         temp_stocks = db.execute("SELECT symbol, SUM(quantity) FROM transactions WHERE person_id = :person_id GROUP BY symbol", {"person_id": session["user_id"]}).fetchall()
         stocks = []
-        print(temp_stocks)
         for stock in temp_stocks:
-            print(stock.keys())
-            print(stock.values())
-            if stock["SUM(quantity)"] > 0:
-                stocks.append({"symbol": stock["symbol"], "shares": stock["SUM(quantity)"]})
+            if stock["sum"] > 0:
+                stocks.append({"symbol": stock["symbol"], "shares": stock["sum"]})
         cash = db.execute("SELECT cash FROM users WHERE id = :id", {"id": session["user_id"]}).fetchall()[0]["cash"]
         total = 0
         for stock in stocks:
@@ -173,7 +170,7 @@ def sell():
                 return apology("invalid stock symbol", 403)
             elif int(shares) <= 0:
                 return apology("shares must be greater than 0", 403)
-            elif db.execute("SELECT SUM(quantity) FROM transactions WHERE person_id = :person_id AND symbol = :symbol GROUP BY symbol", {"person_id": session["user_id"], "symbol": symbol}).fetchall()[0]["SUM(quantity)"] < int(shares):
+            elif db.execute("SELECT SUM(quantity) FROM transactions WHERE person_id = :person_id AND symbol = :symbol GROUP BY symbol", {"person_id": session["user_id"], "symbol": symbol}).fetchall()[0]["sum"] < int(shares):
                 return apology("insufficient shares", 403)
             return render_template("confirmation.html", action='Selling:', symbol=symbol, name=stock_info["name"], shares=int(shares), price=stock_info["price"])#TODO
         # Confirmation POST, clicked Confirm button
@@ -182,7 +179,7 @@ def sell():
             shares = request.form.get("shares")
             time = datetime.now(timezone('US/Eastern')).strftime("%Y-%m-%d %H:%M:%S")
             price = lookup(symbol)["price"]
-            if db.execute("SELECT SUM(quantity) FROM transactions WHERE person_id = :person_id AND symbol = :symbol GROUP BY symbol", {"person_id": session["user_id"], "symbol": symbol}).fetchall()[0]["SUM(quantity)"] < int(shares):
+            if db.execute("SELECT SUM(quantity) FROM transactions WHERE person_id = :person_id AND symbol = :symbol GROUP BY symbol", {"person_id": session["user_id"], "symbol": symbol}).fetchall()[0]["sum"] < int(shares):
                 return apology("insufficient shares", 403)
             db.execute("INSERT INTO transactions (person_id, symbol, quantity, price, time) VALUES(:person_id, :symbol, :quantity, :price, :time)", {"person_id": session["user_id"], "symbol": symbol, "quantity": -int(shares), "price": price, "time": time})
             db.execute("UPDATE users SET cash = cash + :amount WHERE id = :id", {"amount": price * int(shares), "id": session["user_id"]})
