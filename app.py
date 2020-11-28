@@ -50,7 +50,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Connect to stocks.db sqlite database
-engine = create_engine(environ.get('DATABASE_URL') or 'sqlite:///stocks.db')  # database engine object from SQLAlchemy that manages connections to the database
+engine = create_engine(os.environ.get('DATABASE_URL') or 'sqlite:///stocks.db')  # database engine object from SQLAlchemy that manages connections to the database
 db = scoped_session(sessionmaker(bind=engine))  # ensures different users' interactions are separate
 
 # Make sure API key is set
