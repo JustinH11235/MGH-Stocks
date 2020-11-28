@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const request = new XMLHttpRequest();
             const newSymbol = document.getElementById('symbol').value;
             symbols.add(newSymbol);
-            request.open('POST', '/stocks/quote', true);
+            request.open('POST', '/quote', true);
         
             // Callback function for when request completes
             request.onload = () => {
@@ -78,7 +78,7 @@ function updateStocks() {
     if (symbols.size !== 0) {
         // Initialize new request
         const request = new XMLHttpRequest();
-        request.open('POST', '/stocks/quote', true);
+        request.open('POST', '/quote', true);
         
         // Callback function for when request completes
         request.onload = () => {

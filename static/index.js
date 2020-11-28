@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Initialize new request
         const request = new XMLHttpRequest();
-        request.open('GET', '/stocks?xhr=true', true);
+        request.open('GET', '/?xhr=true', true);
 
         // Callback function for when request completes
         request.onload = () => {
