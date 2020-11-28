@@ -49,21 +49,13 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Connect to finance.db sqlite database
-engine = create_engine('sqlite:///stocks.db')  # database engine object from SQLAlchemy that manages connections to the database
+# Connect to stocks.db sqlite database
+engine = create_engine(environ.get('DATABASE_URL') or 'sqlite:///stocks.db')  # database engine object from SQLAlchemy that manages connections to the database
 db = scoped_session(sessionmaker(bind=engine))  # ensures different users' interactions are separate
 
-# Replaced dependency on cs50 with SQLAlchemy
-
-# Configure CS50 Library to use SQLite database
-# db = SQL("sqlite:///finance.db")
-
-# Commented out and hardcoded API_KEY into helpers.py
-
 # Make sure API key is set
-# os.environ.setdefault("API_KEY", 'pk_c7b68b7bb7a548a59f9b68bbbf6f4a2b')
-# if not os.environ.get("API_KEY"):
-#     raise RuntimeError("API_KEY not set")
+if not os.environ.get("API_KEY"):
+    raise RuntimeError("API_KEY not set")
 
 
 @app.route("/", methods=["GET"])
