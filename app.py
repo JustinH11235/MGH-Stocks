@@ -108,7 +108,7 @@ def index():
             stock["subtotal"] = usd(subtotal)
             total += subtotal
         # If all requests succeeded
-        return jsonify({"success": True, "stocks": stocks, "cash": usd(cash), "total": usd(total + cash)})
+        return jsonify({"success": True, "stocks": stocks, "cash": usd(cash), "total": usd(total + float(cash))})
             
     else:
         return render_template("index.html")
