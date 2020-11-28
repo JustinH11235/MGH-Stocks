@@ -14,7 +14,7 @@
             <select class="form-control" id="symbol" name="symbol" onchange="checkInputs()" autofocus>
                 <option disabled selected value="">Symbol</option>
                 {% for stock in stocks %}
-                    {% if stock["SUM(quantity)"] > 0 %}
+                    {% if stock["sum"] > 0 %}
                         <option value="{{ stock['symbol'] }}">{{ stock['symbol'] }}</option>
                     {% endif %}
                 {% endfor %}
