@@ -16,6 +16,10 @@ from helpers import apology, login_required, lookup, usd
 
 # Configure application
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+
+if not os.environ.get("SECRET_KEY"):
+    raise RuntimeError("SECRET_KEY not set")
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
