@@ -271,7 +271,7 @@ def register():
         elif request.form.get("password") != request.form.get("confirmation"):
             return apology("passwords do not match", 403)
         hashe = generate_password_hash(request.form.get("password"))
-        db.execute("INSERT INTO users (username, hash) VALUES (:username, :hash)", {"username": username, "hash": hashe})
+        db.execute("INSERT INTO users (username, hash, cash) VALUES (:username, :hash, :cash)", {"username": username, "hash": hashe, "cash": 10000})
         db.commit()
         session.clear()
         session["user_id"] = db.execute("SELECT id FROM users WHERE username = :username", {"username": username}).fetchall()[0]["id"]
