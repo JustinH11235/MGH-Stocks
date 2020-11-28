@@ -29,7 +29,7 @@
         </tbody>
     </table>
 
-    <form action="/stocks/{{ 'buy' if action == 'Buying:' else 'sell' }}" method="post">
+    <form action="/{{ 'buy' if action == 'Buying:' else 'sell' }}" method="post">
         <button class="btn btn-primary" id="submit" type="submit">Confirm</button>
         
         <input type="hidden" name="symbol1" value="{{ symbol }}" />
