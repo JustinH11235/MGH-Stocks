@@ -201,7 +201,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        return redirect("/stocks")
+        return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -217,7 +217,7 @@ def login():
             session["user_id"] = rows[0]["id"]
     
             # Redirect user to home page
-            return redirect("/stocks")
+            return redirect("/")
         
         return render_template("login.html")
 
@@ -230,7 +230,7 @@ def logout():
     session.clear()
 
     # Redirect user to login form
-    return redirect("/stocks/login")
+    return redirect("/login")
 
 
 @app.route("/quote", methods=["GET", "POST"])
@@ -276,7 +276,7 @@ def register():
         session.clear()
         session["user_id"] = db.execute("SELECT id FROM users WHERE username = :username", {"username": username}).fetchall()[0]["id"]
         flash('Registered!')
-        return redirect("/stocks")
+        return redirect("/")
     else:
         return render_template("register.html")
 
